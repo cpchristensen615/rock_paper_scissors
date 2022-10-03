@@ -16,6 +16,8 @@ using namespace std;
 //////////////////// Prototype Functions /////////////////////////////////////
 void TranslatePick(int flag_who, char selection);
 char ComputerSelectRPSLK();
+void Selection(char userPick,char computerPick,char win_lose);
+void State(char win_lose);
 
 //////////////////// MAIN ////////////////////////////////////////////////////
 int main()
@@ -24,6 +26,7 @@ int main()
     char userPick;                  // user's selection for game
     bool valid_pick = false;        // flag controlled while loop for obtaining user input
     char computerPick;              // randomly selected computer selection for game
+    char win_lose; // who won
     
     
     // Display rules of the game.
@@ -54,16 +57,13 @@ int main()
     TranslatePick(1, computerPick); // Inform user of computer selection
     
     // HANDOUT (PART A): Determine the winner of the game.
-    
-    
+    Selection(userPick,computerPick,win_lose);
     
     // HANDOUT (PART B): Inform the user who won.
     
-    
+    State(win_lose);
     
     // HANDOUT (PART C): Randomly display celebratory messages if user won.
-
-
 
     return 0;
 }
@@ -143,9 +143,89 @@ char ComputerSelectRPSLK()
     return randPickChar;
 }
 
+// while ((compScore < 3 && userScore < 3) || (compScore <= 1 && userScore <= 2) || (userScore <= 1 && compScore <= 2))
+void State(char win_lose){
+    if (win_lose == 'w')
+      cout << "Congratulations! You win!";
+    
+    else if (win_lose == 'l')
+      cout << "Sorry, you lose. Please try again.";
+    
+    else if(win_lose == 't')
+      cout << "Tie. Please try again.";
+}
 
-
-
+void Selection(char userPick,char computerPick,char win_lose){
+  if (userPick == 'R')
+    {
+      if (computerPick == 'R')
+        win_lose = 't'; // tie
+      else if (computerPick == 'P')
+        win_lose = 'l'; // lose
+      else if (computerPick == 'S')
+        win_lose = 'w'; // win
+      else if (computerPick == 'L')
+        win_lose = 'w'; // win
+      else if (computerPick == 'K')
+        win_lose = 'l'; //lose
+    }
+      
+    else if (userPick == 'P')
+    {
+      if (computerPick == 'R')
+        win_lose = 'w'; // tie
+      else if (computerPick == 'P')
+        win_lose = 't'; // lose
+      else if (computerPick == 'S')
+        win_lose = 'l'; // win
+      else if (computerPick == 'L')
+        win_lose = 'l'; // win
+      else if (computerPick == 'K')
+        win_lose = 'w'; //lose
+    }
+    
+    else if (userPick == 'S')
+    {
+      if (computerPick == 'R')
+        win_lose = 'l'; // tie
+      else if (computerPick == 'P')
+        win_lose = 'w'; // lose
+      else if (computerPick == 'S')
+        win_lose = 't'; // win
+      else if (computerPick == 'L')
+        win_lose = 'w'; // win
+      else if (computerPick == 'K')
+        win_lose = 'l'; //lose
+    }
+    
+    else if (userPick == 'L')
+    {
+      if (computerPick == 'R')
+        win_lose = 'l'; // tie
+      else if (computerPick == 'P')
+        win_lose = 'w'; // lose
+      else if (computerPick == 'S')
+        win_lose = 'l'; // win
+      else if (computerPick == 'L')
+        win_lose = 't'; // win
+      else if (computerPick == 'K')
+        win_lose = 'w'; //lose
+    }
+  
+    else if (userPick == 'K')
+    {
+      if (computerPick == 'R')
+        win_lose = 'w'; // tie
+      else if (computerPick == 'P')
+        win_lose = 'l'; // lose
+      else if (computerPick == 'S')
+        win_lose = 'w'; // win
+      else if (computerPick == 'L')
+        win_lose = 'l'; // win
+      else if (computerPick == 'K')
+        win_lose = 't'; //lose
+    }
+}
 
 
 
