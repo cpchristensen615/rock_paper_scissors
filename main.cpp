@@ -1,233 +1,317 @@
-/******************************************************************************
-Description: Rock, Paper, Scissors, Lizard, Spock Game
-             This game is unfinished. Follow along with CSCI130_RockPaperScissors2.pdf
-             to complete the game.
-Last Modified by: Dr. M
-Last Modified on: 9/2020
-*******************************************************************************/
 #include <iostream>
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
-#include <string>
+#include <string> 
 
 using namespace std;
 
-//////////////////// Prototype Functions /////////////////////////////////////
-void TranslatePick(int flag_who, char selection);
-char ComputerSelectRPSLK();
-void Selection(char userPick,char computerPick,char win_lose);
-void State(char win_lose);
+/*Prototype Funtions*/
+void TranslatePick(int flag_who, char selection, char pick[5]);
+char ComputerSelectRPSLK(char pick[5]);
+int versus(char userPick, char computerPick,char pick[5]);
+void whoWon(int WinState, char pick[5]);
 
-//////////////////// MAIN ////////////////////////////////////////////////////
+/* Main */
+
 int main()
 {
-    // declare vars
-    char userPick;                  // user's selection for game
-    bool valid_pick = false;        // flag controlled while loop for obtaining user input
-    char computerPick;              // randomly selected computer selection for game
-    char win_lose; // who won
-    
-    
-    // Display rules of the game.
-    cout << "It's time to play Rock, Paper, Scissors, Lizard, Spock!" << endl;
-    cout << "Use R (for Rock), P (for Paper), S (for Scissors), ";
-    cout << "L (for Lizard), and K (for Spock)." << endl;
-    
-    // Obtain userPick. Prompt until a valid selection is made.
-    while (valid_pick == false)
-    {
-        cout << "You pick: ";
-        cin >> userPick;
-        
-        if ( (userPick == 'R') || (userPick == 'P') || (userPick == 'S' ) ||
-            (userPick == 'L') || (userPick == 'K') )
-        {
-            valid_pick = true;
-        }
-        else
-            cout << "Invalid Selection. Try again. " << endl;
-    }
-    
-    // Repeat selection back to user.
-    TranslatePick(0, userPick);
-    
-    // Obtain computer selection.
-    computerPick = ComputerSelectRPSLK();
-    TranslatePick(1, computerPick); // Inform user of computer selection
-    
-    // HANDOUT (PART A): Determine the winner of the game.
-    Selection(userPick,computerPick,win_lose);
-    
-    // HANDOUT (PART B): Inform the user who won.
-    
-    State(win_lose);
-    
-    // HANDOUT (PART C): Randomly display celebratory messages if user won.
 
-    return 0;
-}
-
-/////////////// User-Created Functions ////////////////////////////////////////
-
-/* Descprition: This function is used to translate the character selection to a 
-        statement which is displayed to the user.
-   Parameters:  flag_who is an integer which is used to indicate if the computer
-                         or the user made the choice.
-                selection is one of the 5 valid character selections  */
-void TranslatePick(int flag_who, char selection)
-{
-    // declare local function variables
-    string who_text;
-    
-    // identify which statements to insert into the output below
-    if (flag_who == 0)
-        who_text = "You";
-    else
-        who_text = "The Computer";
-    
-    // display output where the char selection is translated into words
-    if (selection == 'R')
-        cout << who_text <<" selected Rock." << endl;
-    else if (selection == 'P')
-        cout << who_text <<" selected Paper." << endl;
-    else if (selection == 'S')
-        cout << who_text <<" selected Scissors." << endl;
-    else if (selection == 'L')
-        cout << who_text <<" selected Lizard." << endl;
-    else if (selection == 'K')
-        cout << who_text <<" selected Spock." << endl;
-    else // something is wrong
-        cout << "Check code for errors. Message from TranslatePick fcn." << endl;
-        
-    return;
-        
-}
-
-/* Descprition: This function is used to make a random character selection in the 
-        game Rock, Paper, Scissors, Lizard, Spock
-   Parameters:  there are no inputs */
-char ComputerSelectRPSLK()
-{
-    // declare local function variables
-    char randPickChar;
-    int randPick;
-    
-    // pick a random number from 0 to 4
-    srand (time(NULL)); // initialize random seed.
-    randPick = rand() % 5; // gives us 0 to 4
-    //cout << randPick; // uncomment to debug
-    
-    // assign random number to letter
-    switch (randPick)
-    {
-        case 0: 
-            randPickChar = 'R';
-            break;
-        case 1: 
-            randPickChar = 'P';
-            break;
-        case 2: 
-            randPickChar = 'S';
-            break;
-        case 3: 
-            randPickChar = 'L';
-            break;
-        case 4: 
-            randPickChar = 'K';
-            break;
-        default:
-            cout << "Error in the function ComputerSelectRPSLK. " << endl;
-    }
-    
-    return randPickChar;
-}
-
-// while ((compScore < 3 && userScore < 3) || (compScore <= 1 && userScore <= 2) || (userScore <= 1 && compScore <= 2))
-void State(char win_lose){
-    if (win_lose == 'w')
-      cout << "Congratulations! You win!";
-    
-    else if (win_lose == 'l')
-      cout << "Sorry, you lose. Please try again.";
-    
-    else if(win_lose == 't')
-      cout << "Tie. Please try again.";
-}
-
-void Selection(char userPick,char computerPick,char win_lose){
-  if (userPick == 'R')
-    {
-      if (computerPick == 'R')
-        win_lose = 't'; // tie
-      else if (computerPick == 'P')
-        win_lose = 'l'; // lose
-      else if (computerPick == 'S')
-        win_lose = 'w'; // win
-      else if (computerPick == 'L')
-        win_lose = 'w'; // win
-      else if (computerPick == 'K')
-        win_lose = 'l'; //lose
-    }
-      
-    else if (userPick == 'P')
-    {
-      if (computerPick == 'R')
-        win_lose = 'w'; // tie
-      else if (computerPick == 'P')
-        win_lose = 't'; // lose
-      else if (computerPick == 'S')
-        win_lose = 'l'; // win
-      else if (computerPick == 'L')
-        win_lose = 'l'; // win
-      else if (computerPick == 'K')
-        win_lose = 'w'; //lose
-    }
-    
-    else if (userPick == 'S')
-    {
-      if (computerPick == 'R')
-        win_lose = 'l'; // tie
-      else if (computerPick == 'P')
-        win_lose = 'w'; // lose
-      else if (computerPick == 'S')
-        win_lose = 't'; // win
-      else if (computerPick == 'L')
-        win_lose = 'w'; // win
-      else if (computerPick == 'K')
-        win_lose = 'l'; //lose
-    }
-    
-    else if (userPick == 'L')
-    {
-      if (computerPick == 'R')
-        win_lose = 'l'; // tie
-      else if (computerPick == 'P')
-        win_lose = 'w'; // lose
-      else if (computerPick == 'S')
-        win_lose = 'l'; // win
-      else if (computerPick == 'L')
-        win_lose = 't'; // win
-      else if (computerPick == 'K')
-        win_lose = 'w'; //lose
-    }
+  //declare array 
+  char pick[5];
+  pick[0]='R';
+  pick[1]='P';
+  pick[2]='S';
+  pick[3]='L';
+  pick[4]='K';
   
-    else if (userPick == 'K')
+// declare variables
+  char userPick='A';              //users selection for the game
+  bool valid_pick = false;    // flage controlled while loop for obtaining user input
+  char computerPick;          //randomly selected computer selection for the game
+  int WinState;
+  
+  srand(time(NULL));
+  //Display rules of the game
+
+  cout << "It's time to play Rock, Paper, Scissors, Lizard, Spock!" << endl;
+  cout << "Use R (for Rock), P (for Paper), S (for Scissors)," << endl;
+  cout << "L (for Lizard), and K (for Spock)." <<endl;
+
+  // Obtain userPick. Prompt until vaild selection is made.
+
+  while (valid_pick == false)
+  {
+    cout << "You chose: ";
+    cin >> userPick;
+
+    for (int i=0; i < 5; i++)
     {
-      if (computerPick == 'R')
-        win_lose = 'w'; // tie
-      else if (computerPick == 'P')
-        win_lose = 'l'; // lose
-      else if (computerPick == 'S')
-        win_lose = 'w'; // win
-      else if (computerPick == 'L')
-        win_lose = 'l'; // win
-      else if (computerPick == 'K')
-        win_lose = 't'; //lose
+    if (userPick == pick[i])
+    {
+      valid_pick = true;
+    }  
+    
+   else if(!valid_pick && i==4)
+      cout << "Invalid Selection. Try again." << endl;
     }
+  }
+  // Repaet selection back to user 
+  TranslatePick (0, userPick, pick);
+  computerPick = ComputerSelectRPSLK( pick);
+TranslatePick(1, computerPick, pick); // Inform user of computers selection
+  WinState = versus(userPick, computerPick, pick);
+ 
+whoWon(WinState, pick);
+  return 0;
+}
+void TranslatePick(int flag_who, char selection, char pick[5])
+{
+//declare local funation variables
+string who_text;
+  // identify which statements to insert into output below 
+if (flag_who == 0)
+  who_text = "You";
+else
+  who_text = "The Computer";
+//display output where the char selection is translated into words 
+if (selection == pick[0])
+  cout << who_text << " selected Rock."<< endl;
+else if (selection == pick[1])
+  cout << who_text <<" selected Paper."<<endl;
+else if (selection == pick[2])
+  cout << who_text <<" selected Scissors."<<endl;
+else if (selection == pick[3])
+  cout << who_text <<" selected Lizard."<<endl;
+else if (selection == pick[4])
+  cout << who_text <<" selected Spock."<<endl;
+else // somthing is wrong
+  cout << "Check code for errors. Message from TranslatePick fcn."<< endl;
+}
+char ComputerSelectRPSLK(char pick[5])
+{
+  //declare local function variables
+  char randPickChar;
+  int randPick;
+  // Pick a random number from 0 to 4
+  srand (time(NULL)); // initialize random seed.
+  randPick = rand()% 5; // gives us 0 to 4
+  //cout< randPick; // uncomment to debug
+
+  //assiagn random number to letter
+  switch (randPick)
+    {
+      case 0:
+          randPickChar = pick[0];
+          break;
+      case 1:
+          randPickChar =pick[1];
+          break; 
+      case 2:
+          randPickChar =pick[2];
+          break;
+      case 3:
+          randPickChar =pick[3];
+          break;
+      case 4:
+          randPickChar =pick[4];
+          break;
+      default:
+        cout << "error in the function ComputerSelectRPSLK."<< endl;
+    }
+  return randPickChar;
 }
 
+// function for part A
+int versus(char userPick, char computerPick, char pick[5])
+{
+  if (userPick== pick[0])//user picks rock
+  {
+    if( computerPick == pick[0]){
+      //cout << "Tie. Please try again."<< endl;
+      return 0;
+    }
+    else if (computerPick == pick[1]) 
+    {
+      cout << "Paper beats Rock!"<< endl;
+      return -1;
+    }
+    else if (computerPick ==pick[4])
+    {
+      cout<< "Spock beats Rock!" << endl;
+      return -1;
+      }
+        
+    else if (computerPick == pick[2])
+    {
+     cout << "Rocks beats Scissors!"<< endl;
+      return 1;
+    }
+    else if (computerPick == pick[3])
+    {
+      cout << "Rock beats Lizard!"<< endl;
+      return 1;
+    }
+  }
 
+  if (userPick == pick[2])//user picks scissors
+  {
+    if( computerPick == pick[2]){
+      //cout << "Tie. Please try again."<< endl;
+      return 0;
+    }
+    else if (computerPick == pick[0]) 
+    {
+      cout << "Rock beats Scissors!"<< endl;
+      return -1;
+    }
+    else if (computerPick ==pick[4])
+    {
+      cout<< "Spock beats Scissors!" << endl;
+      return -1;
+      }
+        
+    else if (computerPick == pick[1])
+    {
+     cout << "Scissors beats Paper!"<< endl;
+      return 1;
+    }
+    else if (computerPick == pick[3])
+    {
+      cout << "Scissors beats Lizard!"<< endl;
+      return 1;
+    }
+  }
 
+if (userPick == pick[2])//user picks scissors
+  {
+    if( computerPick == pick[2]){
+      //cout << "Tie. Please try again."<< endl;
+      return 0;
+    }
+    else if (computerPick == pick[0]) 
+    {
+      cout << "Rock beats Scissors!"<< endl;
+      return -1;
+    }
+    else if (computerPick ==pick[4])
+    {
+      cout<< "Spock beats Scissors!" << endl;
+      return -1;
+      }
+        
+    else if (computerPick == pick[1])
+    {
+     cout << "Scissors beats Paper!"<< endl;
+      return 1;
+    }
+    else if (computerPick == pick[3])
+    {
+      cout << "Scissors beats Lizard!"<< endl;
+      return 1;
+    }
+  }
 
+if (userPick == pick[1])//user picks Paper
+  {
+    if( computerPick == pick[1]){
+      //cout << "Tie. Please try again."<< endl;
+      return 0;
+    }
+    else if (computerPick == pick[2]) 
+    {
+      cout << "Scissors beats Paper!"<< endl;
+      return -1;
+    }
+    else if (computerPick ==pick[3])
+    {
+      cout<< "Lizard beats Paper!" << endl;
+      return -1;
+      }
+        
+    else if (computerPick == pick[4])
+    {
+     cout << "Paper beats Spock!"<< endl;
+      return 1;
+    }
+    else if (computerPick == pick[0])
+    {
+      cout << "Paper beats Rock!"<< endl;
+      return 1;
+    }
+  }
+  
+if (userPick == pick[3])//user picks Paper
+  {
+    if( computerPick == pick[3]){
+      //cout << "Tie. Please try again."<< endl;
+      return 0;
+    }
+    else if (computerPick == pick[0]) 
+    {
+      cout << "Rock beats Lizard!"<< endl;
+      return -1;
+    }
+    else if (computerPick ==pick[2])
+    {
+      cout<< "Scissors beats Lizard!" << endl;
+      return -1;
+      }
+        
+    else if (computerPick == pick[4])
+    {
+     cout << "Lizard beats Spock!"<< endl;
+      return 1;
+    }
+    else if (computerPick == pick[1])
+    {
+      cout << "Lizard beats Paper!"<< endl;
+      return 1;
+    }
+  }
 
+  if (userPick == pick[4])//user picks Spock
+  {
+    if( computerPick == pick[4]){
+      //cout << "Tie. Please try again.<< endl;
+      return 0;
+    }
+    else if (computerPick == pick[3]) 
+    {
+      cout << "Lizard beats Spock!"<< endl;
+      return -1;
+    }
+    else if (computerPick ==pick[1])
+    {
+      cout<< "Paper beats Spock!" << endl;
+      return -1;
+      }
+        
+    else if (computerPick == pick[2])
+    {
+     cout << "Spock beats Scissors!"<< endl;
+      return 1;
+    }
+    else if (computerPick == pick[0])
+    {
+      cout << "Spock beats Rock!"<< endl;
+      return 1;
+    }
+  }  
+}
+
+void whoWon(int WinState, char pick[5])
+{
+  if (WinState == 0)
+  {
+    cout<<"It is a Tie!"<<endl;
+  }
+  else if (WinState == -1)
+  {
+    cout << "You Lose!"<< endl;
+  }
+  else if (WinState == 1)
+  {
+    cout << "You Win!"<< endl;
+  }  
+}
